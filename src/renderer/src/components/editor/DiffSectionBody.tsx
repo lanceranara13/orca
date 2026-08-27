@@ -11,6 +11,7 @@ import { translate } from '@/i18n/i18n'
 import { LargeDiffFallback } from './LargeDiffFallback'
 import { buildDiffEditorWordWrapOptions } from './diff-editor-word-wrap-options'
 import { monacoFindOptions } from './monaco-find-options'
+import { useMonacoDarkThemeName } from '@/lib/monaco-editor-theme'
 
 const ImageDiffViewer = lazy(() => import('./ImageDiffViewer'))
 
@@ -70,6 +71,7 @@ export function DiffSectionBody({
   onMount
 }: DiffSectionBodyProps): React.JSX.Element {
   const renderLimit = section.largeDiffRenderLimit?.limited ? section.largeDiffRenderLimit : null
+  const monacoDarkTheme = useMonacoDarkThemeName()
 
   return (
     <div
@@ -177,7 +179,7 @@ export function DiffSectionBody({
           language={language}
           original={section.originalContent}
           modified={section.modifiedContent}
-          theme={isDark ? 'vs-dark' : 'vs'}
+          theme={isDark ? monacoDarkTheme : 'vs'}
           onMount={onMount}
           // Why: @monaco-editor/react can dispose models before widget teardown.
           // Keep them through unmount and dispose unattached models next tick.
